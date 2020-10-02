@@ -20,26 +20,25 @@
                 if(!data.search('<br />')){
                     var split = data.split("<br />")
                     var dataObject =JSON.parse(split[2])
-                    $('#alaias').html( "alias: " + dataObject.url.value)
                     $('#resultado').html( "Resultado: ")
-                    if(dataObject.url.errorCode == '001'){
-                        $('#errorcode').html("err_code: " + dataObject.url.errorCode)
-                        $('#redirect').html('')
-                        $('#error').html("description: " + dataObject.url.value)
-                    }else{
-                        $('#redirect').html(dataObject.prefix + dataObject.url.value);
-                        $('#time').html("time_taken: " +time);
-                    }
+                    $('#errorcode').html('')
+                    $('#error').html('')
+                    $('#redirect').html(dataObject.prefix + dataObject.url.value);
+                    $('#time').html("time_taken: " +time);
+                    $('#alaias').html( "alias: " + dataObject.url.value)
 
                 }else{
                     var dataObject = JSON.parse(data)
                     if(dataObject.url.errorCode == '001'){
+                        $('#alaias').html('')
                         $('#errorcode').html("err_code: " + dataObject.url.errorCode)
                         $('#redirect').html('')
                         $('#error').html("description: " + dataObject.url.value)
                     }else{
                         $('#redirect').html(dataObject.prefix + dataObject.url.value);
                         $('#time').html("time_taken: " +time);
+                        $('#errorcode').html('')
+                        $('#error').html('')
                     }
                 }
                 loadTopURL($)
@@ -83,6 +82,5 @@ function printTopURL($,dataObject){
     $("#listURLS").html('')
     for(var i=0;i<dataObject.length;i++){
         $("#listURLS").append('<li class="list-group-item">'+(i+1)+'°: '+dataObject[i].long_url+'</li>');
-        console.log(dataObject[i].long_url)
     }
 }
