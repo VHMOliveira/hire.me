@@ -47,6 +47,8 @@ class Main
         if($shortCode == false){
             return array('errorCode' => '002','value' => $this->createShortCode($url));
         }else{
+            $urlRow = $this->getUrlFromDB( $shortCode);
+            $this->incrementCounter($urlRow["id"]);
             return array('errorCode' => '002','value' => $shortCode);
         }
 
@@ -97,6 +99,18 @@ class Main
         //fetch() - Returns a single row of the query.
         $result = $stmt->fetch();
         return (empty($result)) ? false : $result["short_code"];
+    }
+
+    public function urlLongList(){
+        $query = "SELECT long_url FROM ".self::$table." ORDER BY hits DESC LIMIT 10";
+        
+        //prepare() - does not execute the query immediately awaiting execution
+        $stmt = $this->pdo->prepare($query);
+        
+        $stmt->execute();
+        //fetch() - Returns a single row of the query.
+        $result = $stmt->fetchAll();
+        return (empty($result)) ? false : $result;
     }
 
     protected function createShortCode($url){
@@ -206,42 +220,48 @@ $shortener = new Main($db);
 
 $shortURL_Prefix = 'http://shortener/u/';
 
-$isRecover = $_POST['recover'];
-if($isRecover == "true"){
-    try{
-        $longURL = $_POST['urlLong'];
-        $splitURL = explode('u/',$longURL);
-        
-        // Get URL by short code
-        $url = $shortener->shortCodeToUrl($splitURL[1]);
-        
-        echo json_encode(array('url' => $url));
-    }catch(Exception $e){
-        echo json_encode($e->getMessage());
-    }
+if(isset($_POST['list'])){
+    $list = $shortener->urlLongList();
+    echo json_encode($list);
 }else{
-
-    $longURL = $_POST['urlLong'];
-    $customAlias = $_POST['urlShort'];
-    if(empty($customAlias)){
-        $url = $longURL;
+    $isRecover = $_POST['recover'];
+    if($isRecover == "true"){
+        try{
+            $longURL = $_POST['urlLong'];
+            $splitURL = explode('u/',$longURL);
+            
+            // Get URL by short code
+            $url = $shortener->shortCodeToUrl($splitURL[1]);
+            
+            echo json_encode(array('url' => $url));
+        }catch(Exception $e){
+            echo json_encode($e->getMessage());
+        }
     }else{
-        $url = $longURL."&CUSTOM_ALIAS=".$customAlias;
-    }
 
-    //$urlObject = new shortener();
+        $longURL = $_POST['urlLong'];
+        $customAlias = $_POST['urlShort'];
+        if(empty($customAlias)){
+            $url = $longURL;
+        }else{
+            $url = $longURL."&CUSTOM_ALIAS=".$customAlias;
+        }
 
-    try{
-        // Get short code of the URL
-        $shortCode = $shortener->urlToShortCode($url);
-        //$urlObject->__set('url',$shortCode);
-        echo json_encode(array(
-            'url' => $shortCode,
-            'prefix' => $shortURL_Prefix
-        ),JSON_FORCE_OBJECT);
-        
-    }catch(Exception $e){
-        // Send to jquery error
-        echo json_encode($e->getMessage());
+        //$urlObject = new shortener();
+
+        try{
+            // Get short code of the URL
+            $shortCode = $shortener->urlToShortCode($url);
+            //$urlObject->__set('url',$shortCode);
+            echo json_encode(array(
+                'url' => $shortCode,
+                'prefix' => $shortURL_Prefix
+            ),JSON_FORCE_OBJECT);
+            
+        }catch(Exception $e){
+            // Send to jquery error
+            echo json_encode($e->getMessage());
+        }
     }
 }
+

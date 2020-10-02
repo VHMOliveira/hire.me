@@ -3,7 +3,8 @@
 
 	/* trigger when page is ready */
 	$(document).ready(function (){
-	
+        
+        loadTopURL($)
 		$('#submitGetShort').on('click', () => {
             
             var urlLong = $('#myURL').val();
@@ -41,6 +42,7 @@
                         $('#time').html("time_taken: " +time);
                     }
                 }
+                loadTopURL($)
             });
             
         })
@@ -65,3 +67,22 @@
 	});
 
 })(window.jQuery);
+
+function loadTopURL($){
+    $.ajax({
+        type:'POST',
+        url:'app.php',
+        data: {list: 'true'},
+    }).done(function( data ) {
+        var dataObject = JSON.parse(data)
+        printTopURL($,dataObject)
+    });
+}
+
+function printTopURL($,dataObject){
+    $("#listURLS").html('')
+    for(var i=0;i<dataObject.length;i++){
+        $("#listURLS").append('<li class="list-group-item">'+(i+1)+'°: '+dataObject[i].long_url+'</li>');
+        console.log(dataObject[i].long_url)
+    }
+}

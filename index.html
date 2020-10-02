@@ -26,29 +26,40 @@
                 <div class="wrapper">
   
                     <div class="middle">
-                
-                        <h2>Encurtador de URL's</h2>
-                        <br>
-                        <P>Digite a url que será encurtada: <input id="myURL" name="myURL" type="url" placeholder="http://www.example.com"></P>
-                        <p>Digite o CUSTOM_ALIAS caso tenha interesse: <input id="custom_alias" name="custom_alias" type="text" placeholder="nome customizado"></p>
-                        <br>
-                        <button type="button" id="submitGetShort">Encurtar URL</button>
-						<br>
-						<br>
-						<h3 id="resultado">Aguardando Resultado do encurtador</h3>
-						<a id="redirect" ></a><br>
-						<h4 id="time" ></h4><br>
-						<p id="alaias" ></p><br>
-						<p id="errorcode" ></p><br>
-						<p id="error" ></p><br>
-						<br>
-						<h2>Retrieve URL</h2>
-                        <br>
-                        <P>Digite a url que será recuperada: <input id="myshortURL" name="myshortURL" type="url" placeholder="http://www.example.com"></P>
-                        <br>
-                        <button type="button" id="submitRecoverShort">Encurtar URL</button>
-						<br>
-						<a id="recovery" ></a><br><br>
+						<div class="row">
+							<div class="col-sm">
+								<h2>Encurtador de URL's:</h2>
+								<br>
+								<P>Digite a url que será encurtada: <input id="myURL" name="myURL" type="url" placeholder="http://www.example.com"></P>
+								<p>Digite o CUSTOM_ALIAS caso tenha interesse: <input id="custom_alias" name="custom_alias" type="text" placeholder="nome customizado"></p>
+								<br>
+								<button type="button" id="submitGetShort">Encurtar URL</button>
+								<br>
+								<br>
+								<h3 id="resultado">Aguardando Resultado do encurtador</h3>
+								<h4 id="redirect" ></h4><br>
+								<h4 id="time" ></h4><br>
+								<p id="alaias" ></p><br>
+								<p id="errorcode" ></p><br>
+								<p id="error" ></p><br>
+								<br>
+							</div>
+							<div class="col-sm">
+								<h2>Retrieve URL:</h2>
+								<br>
+								<P>Digite a url que será recuperada: <input id="myshortURL" name="myshortURL" type="url" placeholder="http://www.example.com"></P>
+								<br>
+								<button type="button" id="submitRecoverShort">Encurtar URL</button>
+								<br>
+								<a id="recovery" ></a><br><br>
+							</div>
+							<div class="col-sm">
+								<h2>Lista das url, mais solicitadas:</h2>
+								<ul class="list-group" id="listURLS">
+									
+								</ul>
+							</div>
+						  </div>
                     </div>
                       
                   </div><!-- /wrapper -->
